@@ -1,0 +1,14 @@
+longname,name,units,trt,ahead,newname
+Temperature_surface,tmpsfc,k,min+max+mean,0,airtemp
+Relative_humidity_height_above_ground,rh2m,%,mean,0,relhum
+u-component_of_wind_height_above_ground,ugrd10m,m/s,mean,0,uwind
+v-component_of_wind_height_above_ground,vgrd10m,m/s,mean,0,vwind
+Snow_Cover_surface,snowcsfc,%,mean,0,sncvr
+Snow_depth_surface,snodsfc,m,mean,0,sndep
+Vegetation_Type_surface,vgtypsfc,index,first,0,vegtyp
+Vegetation_surface,vegsfc,%,mean,0,vegcvr
+Transpiration_Stress-onset_soil_moisture_surface,smrefsfc,proportion,mean,0,trnstr
+Wilting_Point_surface,wiltsfc,fraction,mean,0,wilt
+Total_precipitation_surface_Mixed_intervals_Accumulation,apcpsfc,kg/m^2,sum,6,precip
+Visibility_surface,vissfc,m,mean,0,vis
+Total_cloud_cover_entire_atmosphere_single_layer,tcdcclm,%,mean,0,cloud

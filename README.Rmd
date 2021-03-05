@@ -1,0 +1,144 @@
+---
+title: "nam218grads"
+output: github_document
+---
+
+# nam281grads
+
+This package simplifies access to the [NCEP NOMADS grads server](http://nomads.ncep.noaa.gov:80/dods/nam) for the [NAM](https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/north-american-mesoscale-forecast-system-nam) forecast models.
+
+## Requirements
+
+ + [R v4+](https://www.r-project.org/)
+ + [rlang](https://CRAN.R-project.org/package=rlang)
+ + [dplyr](https://CRAN.R-project.org/package=dplyr)
+ + [sf](https://CRAN.R-project.org/package=sf)
+ + [stars](https://CRAN.R-project.org/package=stars)
+ + [ncdf4](https://CRAN.R-project.org/package=ncdf4)
+
+## Installation
+
+```
+remotes::install_github("BigelowLab/nam218grads")
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Usage
+
+### Retrieve a URL for a resource
+
+Retrieve a URL for a resource by date, like yesterday's forecast at 0000H. Note that the
+NCEP/NOMADS grads server only maintains the current forecast plus the prior 6.
+
+```{r get_uri}
+library(nam218grads)
+uri <- grads_uri(date = Sys.Date()-1, product = "nam_00z")
+uri
+```
+
+### Get a handle to a resource
+
+It's just a [ncdf4](https://CRAN.R-project.org/package=ncdf4) object, but we wrapped common
+tasks in friendly functions.
+
+```{r grads_open}
+x <- open_grads(uri)
+# File http://nomads.ncep.noaa.gov:80/dods/nam/nam20210303/nam_00z (NC_FORMAT_CLASSIC):
+# 
+#      141 variables (excluding dimension variables):
+#         float absvprs[lon,lat,lev,time]   
+#             _FillValue: 9.99900026055401e+20
+#             missing_value: 9.99900026055401e+20
+#             long_name: ** (1000 850 700 500 250) absolute vorticity [1/s] 
+#         float no4lftx180_0mb[lon,lat,time]   
+#             _FillValue: 9.99900026055401e+20
+#             missing_value: 9.99900026055401e+20
+#             long_name: ** 180-0 mb above ground best (4 layer) lifted index [k] 
+#      ...
+#    4 global attributes:
+#        title: NAM every 3 hours fcst staring from 00Z03mar2021, download Mar 03 02:38 UTC
+#        Conventions: COARDS GrADS
+#        dataType: Grid
+#        history: Wed Mar 03 22:27:39 GMT 2021 : imported by GrADS Data Server 2.0
+```
+
+You can explore the contents of the resource.
+
+```{r times}
+times <- get_time(x)
+times
+```
+
+```{r levels}
+levels <- get_lev(x)
+levels
+```
+
+```{r variables}
+vars <- get_varnames(x)
+vars
+```
+
+```{r dimnames}
+dims <- get_dims(x)
+dims
+```
+
+
+### Retrieve data
+
+#### As an array
+Retrieving data will return contiguous arrays of data. We provide a function `get_var_array` that expects the slab coordinates in integer run-length encoding for each dimension as \code{[start_index, count]}. This function returns an array of cell values.
+
+```{r get_array}
+a <- nam218grads::get_var_array(x, "tmpprs",list(lon = c(110, 100),
+                                  lat = c(150, 75),
+                                  lev = c(3, 5),
+                                  time = c(1, 12)))
+str(a)
+```
+
+
+#### As a stars object
+The `get_var` function is a convenient wrapper around the `get_var_array` function.  Users specify the slab limits with 'real world' units, and a [`stars`](https://r-spatial.github.io/stars/) is returned (although returning an array is an option).
+
+```{r get_stars}
+s <- nam218grads::get_var(x, "tmpprs",
+                          bb = c(-77.0, -51.5, 37.9, 56.7),
+                          time = times[1:12],
+                          lev = levels[3:5])
+s
+```
+
+#### Close the handle
+
+The resource is a ncdf4 object - be sure to close it when done.
+
+```{r close_it}
+close_grads(x)
+```
+
+### Plot the levels at different times
+
+First time slice...
+
+```{r plot_time_1}
+if (require(maps)){
+  time_string <- format(times[1], "%Y-%m-%d %H:%M:%S")
+  overlay_fun <- function() {
+    map(col = 'red', add = TRUE)
+    mtext(time_string, side = 1, line = -1)
+  }
+  plot(s, axes = TRUE, hook = overlay_fun)
+}
+```
+
+```{r plot_time_12}
+if (require(maps)){
+  time_string <- format(times[12], "%Y-%m-%d %H:%M:%S")
+  plot(s[,,,,12], axes = TRUE, hook = overlay_fun)
+}
+```

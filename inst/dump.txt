@@ -1,0 +1,613 @@
+File http://nomads.ncep.noaa.gov:80/dods/nam/nam20210301/nam_00z (NC_FORMAT_CLASSIC):
+
+     141 variables (excluding dimension variables):
+        float absvprs[lon,lat,lev,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** (1000 850 700 500 250) absolute vorticity [1/s] 
+        float no4lftx180_0mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 180-0 mb above ground best (4 layer) lifted index [k] 
+        float acpcpsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface convective precipitation [kg/m^2] 
+        float albdosfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface albedo [%] 
+        float apcpsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface total precipitation [kg/m^2] 
+        float bmixlhy1[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 1 hybrid level blackadars mixing length scale [m] 
+        float capesfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface convective available potential energy [j/kg] 
+        float cape180_0mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 180-0 mb above ground convective available potential energy [j/kg] 
+        float cdsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface drag coefficient [non-dim] 
+        float cfrzrsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface categorical freezing rain [-] 
+        float cicepsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface categorical ice pellets [-] 
+        float cinsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface convective inhibition [j/kg] 
+        float cin180_0mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 180-0 mb above ground convective inhibition [j/kg] 
+        float cnwatsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface plant canopy surface water [kg/m^2] 
+        float crainsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface categorical rain [-] 
+        float csnowsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface categorical snow [-] 
+        float dlwrfsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface downward long-wave rad. flux [w/m^2] 
+        float dpt2m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 2 m above ground dew point temperature [k] 
+        float dswrfsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface downward short-wave radiation flux [w/m^2] 
+        float dzdtprs[lon,lat,lev,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** (1000 975 950 925 900.. 75 50 20 10 5) vertical velocity (geometric) [m/s] 
+        float fricvsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface frictional velocity [m/s] 
+        float gustsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface wind speed (gust) [m/s] 
+        float hgtsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface geopotential height [gpm] 
+        float hgtprs[lon,lat,lev,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** (1000 975 950 925 900.. 150 125 100 75 50) geopotential height [gpm] 
+        float hgtclb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** cloud base geopotential height [gpm] 
+        float hgtpbl[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** planetary boundary layer geopotential height [gpm] 
+        float hgtlwb0[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** lowest level of the wet bulb zero geopotential height [gpm] 
+        float hgt0c[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0c isotherm geopotential height [gpm] 
+        float hindexsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface haines index [numeric] 
+        float hlcy3000_0m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 3000-0 m above ground storm relative helicity [m^2/s^2] 
+        float hpblsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface planetary boundary layer height [m] 
+        float icecsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface ice cover [proportion] 
+        float landsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface land cover (0=sea, 1=land) [proportion] 
+        float lftxl100_100[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 500-1000 mb surface lifted index [k] 
+        float lhtflsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface latent heat net flux [w/m^2] 
+        float ltngsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface lightning [non-dim] 
+        float maxrh2m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 2 m above ground maximum relative humidity [%] 
+        float maxuw10m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 10 m above ground u component of hourly maximum 10m wind speed [m/s] 
+        float maxvw10m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 10 m above ground v component of hourly maximum 10m wind speed [m/s] 
+        float minrh2m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 2 m above ground minimum relative humidity [%] 
+        float msletmsl[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** mean sea level mslp (eta model reduction) [pa] 
+        float mstav0_100cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0-1 m below ground moisture availability [%] 
+        float pli30_0mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 30-0 mb above ground parcel lifted index (to 500 hpa) [k] 
+        float porossfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface soil porosity [proportion] 
+        float pressfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface pressure [pa] 
+        float pres80m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 80 m above ground pressure [pa] 
+        float presmwl[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** max wind pressure [pa] 
+        float prestrop[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** tropopause pressure [pa] 
+        float prmslmsl[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** mean sea level pressure reduced to msl [pa] 
+        float pwatclm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** entire atmosphere (considered as a single layer) precipitable water [kg/m^2] 
+        float refcclm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** entire atmosphere (considered as a single layer) composite reflectivity [db] 
+        float refd4000m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 4000 m above ground reflectivity [db] 
+        float refd1000m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 1000 m above ground reflectivity [db] 
+        float refdhy1[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 1 hybrid level reflectivity [db] 
+        float retopclm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** entire atmosphere (considered as a single layer) echo top [m] 
+        float rhprs[lon,lat,lev,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** (1000 975 950 925 900.. 150 125 100 75 50) relative humidity [%] 
+        float rh2m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 2 m above ground relative humidity [%] 
+        float rhsg330_1000[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0.33-1 sigma layer relative humidity [%] 
+        float rh30_0mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 30-0 mb above ground relative humidity [%] 
+        float rh60_30mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 60-30 mb above ground relative humidity [%] 
+        float rh90_60mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 90-60 mb above ground relative humidity [%] 
+        float rh120_90mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 120-90 mb above ground relative humidity [%] 
+        float rh150_120mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 150-120 mb above ground relative humidity [%] 
+        float rh180_150mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 180-150 mb above ground relative humidity [%] 
+        float rh0c[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0c isotherm relative humidity [%] 
+        float rlyrssfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface number of soil layers in root zone [non-dim] 
+        float sfcrsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface surface roughness [m] 
+        float shtflsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface sensible heat net flux [w/m^2] 
+        float smdrysfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface direct evaporation cease (soil moisture) [proportion] 
+        float smrefsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface transpiration stress-onset (soil moisture) [proportion] 
+        float snodsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface snow depth [m] 
+        float snowcsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface snow cover [%] 
+        float soill0_10cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0-0.1 m below ground liquid volumetric soil moisture (non frozen) [proportion] 
+        float soill10_40cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0.1-0.4 m below ground liquid volumetric soil moisture (non frozen) [proportion] 
+        float soill40_100cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0.4-1 m below ground liquid volumetric soil moisture (non frozen) [proportion] 
+        float soill100_200cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 1-2 m below ground liquid volumetric soil moisture (non frozen) [proportion] 
+        float soilm0_200cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0-2 m below ground soil moisture content [kg/m^2] 
+        float soilw0_10cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0-0.1 m below ground volumetric soil moisture content [fraction] 
+        float soilw10_40cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0.1-0.4 m below ground volumetric soil moisture content [fraction] 
+        float soilw40_100cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0.4-1 m below ground volumetric soil moisture content [fraction] 
+        float soilw100_200cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 1-2 m below ground volumetric soil moisture content [fraction] 
+        float sotypsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface soil type [-] 
+        float spfh2m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 2 m above ground specific humidity [kg/kg] 
+        float spfh80m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 80 m above ground specific humidity [kg/kg] 
+        float tcdcclm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** entire atmosphere (considered as a single layer) total cloud cover [%] 
+        float tkeprs[lon,lat,lev,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** (1000 975 950 925 900.. 150 125 100 75 50) turbulent kinetic energy [j/kg] 
+        float tmax2m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 2 m above ground maximum temperature [k] 
+        float tmin2m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 2 m above ground minimum temperature [k] 
+        float tmpsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface temperature [k] 
+        float tmpprs[lon,lat,lev,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** (1000 975 950 925 900.. 150 125 100 75 50) temperature [k] 
+        float tmp2m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 2 m above ground temperature [k] 
+        float tmp80m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 80 m above ground temperature [k] 
+        float tmp30_0mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 30-0 mb above ground temperature [k] 
+        float tmp60_30mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 60-30 mb above ground temperature [k] 
+        float tmp90_60mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 90-60 mb above ground temperature [k] 
+        float tmp120_90mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 120-90 mb above ground temperature [k] 
+        float tmp150_120mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 150-120 mb above ground temperature [k] 
+        float tmp180_150mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 180-150 mb above ground temperature [k] 
+        float tmptrop[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** tropopause temperature [k] 
+        float tsoil0_10cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0-0.1 m below ground soil temperature validation to deprecate [k] 
+        float tsoil10_40cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0.1-0.4 m below ground soil temperature validation to deprecate [k] 
+        float tsoil40_100cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0.4-1 m below ground soil temperature validation to deprecate [k] 
+        float tsoil100_200cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 1-2 m below ground soil temperature validation to deprecate [k] 
+        float tsoil300cm[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 3 m underground soil temperature validation to deprecate [k] 
+        float ugrdprs[lon,lat,lev,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** (1000 975 950 925 900.. 150 125 100 75 50) u-component of wind [m/s] 
+        float ugrd10m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 10 m above ground u-component of wind [m/s] 
+        float ugrd80m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 80 m above ground u-component of wind [m/s] 
+        float ugrd30_0mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 30-0 mb above ground u-component of wind [m/s] 
+        float ugrd60_30mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 60-30 mb above ground u-component of wind [m/s] 
+        float ugrd90_60mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 90-60 mb above ground u-component of wind [m/s] 
+        float ugrd120_90mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 120-90 mb above ground u-component of wind [m/s] 
+        float ugrd150_120mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 150-120 mb above ground u-component of wind [m/s] 
+        float ugrd180_150mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 180-150 mb above ground u-component of wind [m/s] 
+        float ugrdpbl[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** planetary boundary layer u-component of wind [m/s] 
+        float ugrdmwl[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** max wind u-component of wind [m/s] 
+        float ugrdtrop[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** tropopause u-component of wind [m/s] 
+        float ulwrfsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface upward long-wave rad. flux [w/m^2] 
+        float uswrfsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface upward short-wave radiation flux [w/m^2] 
+        float vegsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface vegetation [%] 
+        float vgrdprs[lon,lat,lev,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** (1000 975 950 925 900.. 150 125 100 75 50) v-component of wind [m/s] 
+        float vgrd10m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 10 m above ground v-component of wind [m/s] 
+        float vgrd80m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 80 m above ground v-component of wind [m/s] 
+        float vgrd30_0mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 30-0 mb above ground v-component of wind [m/s] 
+        float vgrd60_30mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 60-30 mb above ground v-component of wind [m/s] 
+        float vgrd90_60mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 90-60 mb above ground v-component of wind [m/s] 
+        float vgrd120_90mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 120-90 mb above ground v-component of wind [m/s] 
+        float vgrd150_120mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 150-120 mb above ground v-component of wind [m/s] 
+        float vgrd180_150mb[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 180-150 mb above ground v-component of wind [m/s] 
+        float vgrdpbl[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** planetary boundary layer v-component of wind [m/s] 
+        float vgrdmwl[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** max wind v-component of wind [m/s] 
+        float vgrdtrop[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** tropopause v-component of wind [m/s] 
+        float vgtypsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface vegetation type [integer(0-13)] 
+        float vissfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface visibility [m] 
+        float visclt[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** cloud top visibility [m] 
+        float vratepbl[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** planetary boundary layer ventilation rate [m^2/s] 
+        float vucsh0_6000m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0-6000 m above ground vertical u-component shear [1/s] 
+        float vvcsh0_6000m[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** 0-6000 m above ground vertical v-component shear [1/s] 
+        float vvelprs[lon,lat,lev,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** (1000 975 950 925 900.. 150 125 100 75 50) vertical velocity (pressure) [pa/s] 
+        float weasdaccsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface water equivalent of accumulated snow depth [kg/m^2] 
+        float weasdsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface water equivalent of accumulated snow depth [kg/m^2] 
+        float wiltsfc[lon,lat,time]   
+            _FillValue: 9.99900026055401e+20
+            missing_value: 9.99900026055401e+20
+            long_name: ** surface wilting point [fraction] 
+
+     4 dimensions:
+        lat  Size:443
+            grads_dim: y
+            grads_mapping: linear
+            grads_size: 443
+            units: degrees_north
+            long_name: latitude
+            minimum: 12.219908
+            maximum: 61.20556254545
+            resolution: 0.110827274620533
+        lev  Size:42
+            grads_dim: z
+            grads_mapping: levels
+            units: millibar
+            long_name: altitude
+            minimum: 1000
+            maximum: 5
+            resolution: 24.2682933807373
+        lon  Size:913
+            grads_dim: x
+            grads_mapping: linear
+            grads_size: 913
+            units: degrees_east
+            long_name: longitude
+            minimum: -152.878623
+            maximum: -49.47263081081
+            resolution: 0.113383762538433
+        time  Size:29
+            grads_dim: t
+            grads_mapping: linear
+            grads_size: 29
+            grads_min: 00z01mar2021
+            grads_step: 3hr
+            units: days since 1-1-1 00:00:0.0
+            long_name: time
+            minimum: 00z01mar2021
+            maximum: 12z04mar2021
+            resolution: 0.125
+
+    4 global attributes:
+        title: NAM every 3 hours fcst staring from 00Z01mar2021, download Mar 01 02:37 UTC
+        Conventions: COARDS
+GrADS
+        dataType: Grid
+        history: Mon Mar 01 17:22:37 GMT 2021 : imported by GrADS Data Server 2.0
