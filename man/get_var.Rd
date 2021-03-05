@@ -16,7 +16,7 @@ get_var(
 \arguments{
 \item{x}{ncdf4 object}
 
-\item{var}{character, the name of the variable to retrieve}
+\item{var}{character, one or more names of the variables to retrieve}
 
 \item{bb}{a 4 element bounding box for subsetting ordered as
 \code{[xmin, xmax, ymin, ymax]}}
@@ -27,11 +27,12 @@ is the first recorded time in the object.}
 
 \item{lev}{numeric vector of one or more levels. These are matched the
 closest known levels in the object. See \code{get_lev} Default
-is the first level time in the object.}
+is the first level time in the object.  Ignored if \code{lev} is not
+a dimension of the variable.}
 
 \item{form}{character either 'array' of 'stars' (default)
 \itemize{
-  \item{array}{an array - possibly degenerate to a matrix}
+  \item{array}{an array or list of arrays, possibly degenerate to a matrix}
   \item{stars}{a stars object, possibly with band (time) and z (level)}
 }}
 }

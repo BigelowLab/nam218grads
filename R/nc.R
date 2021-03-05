@@ -236,7 +236,7 @@ get_var_array <- function(x, var, index, collapse_degen = TRUE){
 #'
 #' @export
 #' @param x ncdf4 object
-#' @param var character, the name of the variable to retrieve
+#' @param var character, one or more names of the variables to retrieve
 #' @param bb a 4 element bounding box for subsetting ordered as
 #'        \code{[xmin, xmax, ymin, ymax]}
 #' @param time POSIXct vector of one or more times to retrieve. These are matched the
@@ -244,10 +244,11 @@ get_var_array <- function(x, var, index, collapse_degen = TRUE){
 #'        is the first recorded time in the object.
 #' @param lev numeric vector of one or more levels. These are matched the
 #'        closest known levels in the object. See \code{get_lev} Default
-#'        is the first level time in the object.
+#'        is the first level time in the object.  Ignored if \code{lev} is not
+#'        a dimension of the variable.
 #' @param form character either 'array' of 'stars' (default)
 #' \itemize{
-#'   \item{array}{an array - possibly degenerate to a matrix}
+#'   \item{array}{an array or list of arrays, possibly degenerate to a matrix}
 #'   \item{stars}{a stars object, possibly with band (time) and z (level)}
 #' }
 get_var <- function(x,
@@ -265,6 +266,18 @@ get_var <- function(x,
     time = get_loc(x, 'time')[1:4]
     lev = get_loc(x, "lev")[1]
     form = c("matrix", "stars")[2]
+  }
+
+  if (length(var) > 1){
+    r <- sapply(var,
+                function(v){
+                  get_var(x, v, bb = bb, time = time, lev = lev, form = form)
+                }, simplify = FALSE)
+    if (tolower(form[1]) == 'stars'){
+      r <- Reduce(c, r) %>%
+        stats::setNames(var)
+    }
+    return(r)
   }
 
   stopifnot(var[1] %in% get_varnames(x))
@@ -327,7 +340,7 @@ get_var <- function(x,
       stars::st_flip(which = 2)  %>%
       stars::st_set_dimensions(which = 3, values = times[itime], names = 'time')
   }
-
+  r <- stats::setNames(r, var)
   r
 }
 

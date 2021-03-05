@@ -1,8 +1,6 @@
 nam218grads
 ================
 
-# nam281grads
-
 This package simplifies access to the [NCEP NOMADS grads
 server](http://nomads.ncep.noaa.gov:80/dods/nam) for the
 [NAM](https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/north-american-mesoscale-forecast-system-nam)
@@ -30,12 +28,13 @@ Retrieve a URL for a resource by date, like yesterday’s forecast at
 forecast plus the prior 6.
 
 ``` r
+library(stars)
 library(nam218grads)
 uri <- grads_uri(date = Sys.Date()-1, product = "nam_00z")
 uri
 ```
 
-    ## [1] "http://nomads.ncep.noaa.gov:80/dods/nam/nam20210303/nam_00z"
+    ## [1] "http://nomads.ncep.noaa.gov:80/dods/nam/nam20210304/nam_00z"
 
 ### Get a handle to a resource
 
@@ -70,21 +69,21 @@ times <- get_time(x)
 times
 ```
 
-    ##  [1] "2021-03-05 00:00:00 UTC" "2021-03-05 03:00:00 UTC"
-    ##  [3] "2021-03-05 06:00:00 UTC" "2021-03-05 09:00:00 UTC"
-    ##  [5] "2021-03-05 12:00:00 UTC" "2021-03-05 15:00:00 UTC"
-    ##  [7] "2021-03-05 18:00:00 UTC" "2021-03-05 21:00:00 UTC"
-    ##  [9] "2021-03-06 00:00:00 UTC" "2021-03-06 03:00:00 UTC"
-    ## [11] "2021-03-06 06:00:00 UTC" "2021-03-06 09:00:00 UTC"
-    ## [13] "2021-03-06 12:00:00 UTC" "2021-03-06 15:00:00 UTC"
-    ## [15] "2021-03-06 18:00:00 UTC" "2021-03-06 21:00:00 UTC"
-    ## [17] "2021-03-07 00:00:00 UTC" "2021-03-07 03:00:00 UTC"
-    ## [19] "2021-03-07 06:00:00 UTC" "2021-03-07 09:00:00 UTC"
-    ## [21] "2021-03-07 12:00:00 UTC" "2021-03-07 15:00:00 UTC"
-    ## [23] "2021-03-07 18:00:00 UTC" "2021-03-07 21:00:00 UTC"
-    ## [25] "2021-03-08 00:00:00 UTC" "2021-03-08 03:00:00 UTC"
-    ## [27] "2021-03-08 06:00:00 UTC" "2021-03-08 09:00:00 UTC"
-    ## [29] "2021-03-08 12:00:00 UTC"
+    ##  [1] "2021-03-06 00:00:00 UTC" "2021-03-06 03:00:00 UTC"
+    ##  [3] "2021-03-06 06:00:00 UTC" "2021-03-06 09:00:00 UTC"
+    ##  [5] "2021-03-06 12:00:00 UTC" "2021-03-06 15:00:00 UTC"
+    ##  [7] "2021-03-06 18:00:00 UTC" "2021-03-06 21:00:00 UTC"
+    ##  [9] "2021-03-07 00:00:00 UTC" "2021-03-07 03:00:00 UTC"
+    ## [11] "2021-03-07 06:00:00 UTC" "2021-03-07 09:00:00 UTC"
+    ## [13] "2021-03-07 12:00:00 UTC" "2021-03-07 15:00:00 UTC"
+    ## [15] "2021-03-07 18:00:00 UTC" "2021-03-07 21:00:00 UTC"
+    ## [17] "2021-03-08 00:00:00 UTC" "2021-03-08 03:00:00 UTC"
+    ## [19] "2021-03-08 06:00:00 UTC" "2021-03-08 09:00:00 UTC"
+    ## [21] "2021-03-08 12:00:00 UTC" "2021-03-08 15:00:00 UTC"
+    ## [23] "2021-03-08 18:00:00 UTC" "2021-03-08 21:00:00 UTC"
+    ## [25] "2021-03-09 00:00:00 UTC" "2021-03-09 03:00:00 UTC"
+    ## [27] "2021-03-09 06:00:00 UTC" "2021-03-09 09:00:00 UTC"
+    ## [29] "2021-03-09 12:00:00 UTC"
 
 ``` r
 levels <- get_lev(x)
@@ -151,14 +150,16 @@ dims
 
 Retrieving data will return contiguous arrays of data. We provide a
 function `get_var_array` that expects the slab coordinates in integer
-run-length encoding for each dimension as . This function returns an
-array of cell values.
+run-length encoding for each dimension as `[start_index, count]`. This
+function returns an array of cell values - for range of pressure levels
+at different times.
 
 ``` r
-a <- nam218grads::get_var_array(x, "tmpprs",list(lon = c(110, 100),
-                                  lat = c(150, 75),
-                                  lev = c(3, 5),
-                                  time = c(1, 12)))
+a <- nam218grads::get_var_array(x, "tmpprs", 
+                                list(lon = c(110, 100),
+                                     lat = c(150, 75),
+                                     lev = c(3, 5),
+                                     time = c(1, 12)))
 str(a)
 ```
 
@@ -168,8 +169,8 @@ str(a)
 
 The `get_var` function is a convenient wrapper around the
 `get_var_array` function. Users specify the slab limits with ‘real
-world’ units, and a [`stars`](https://r-spatial.github.io/stars/) is
-returned (although returning an array is an option).
+world’ units, and a [`stars`](https://r-spatial.github.io/stars/) object
+is returned (although returning an array is an option).
 
 ``` r
 s <- nam218grads::get_var(x, "tmpprs",
@@ -181,20 +182,47 @@ s
 
     ## stars object with 4 dimensions and 1 attribute
     ## attribute(s), summary of first 1e+05 cells:
-    ##        X        
-    ##  Min.   :241.7  
-    ##  1st Qu.:255.1  
-    ##  Median :262.0  
-    ##  Mean   :261.1  
-    ##  3rd Qu.:268.8  
-    ##  Max.   :276.9  
+    ##     tmpprs      
+    ##  Min.   :244.4  
+    ##  1st Qu.:259.0  
+    ##  Median :265.1  
+    ##  Mean   :265.1  
+    ##  3rd Qu.:271.9  
+    ##  Max.   :283.7  
     ##  NA's   :11260  
     ## dimension(s):
     ##      from  to         offset     delta  refsys point values x/y
     ## x       1 226       -77.0816  0.113384  WGS 84    NA   NULL [x]
     ## y       1 170        56.7171 -0.110827  WGS 84    NA   NULL [y]
     ## z       1   3            950       -25      NA    NA   NULL    
-    ## time    1  12 2021-03-05 UTC   3 hours POSIXct    NA   NULL
+    ## time    1  12 2021-03-06 UTC   3 hours POSIXct    NA   NULL
+
+You can also retrieve multiple variables. Note in the example below that
+`ugrd10m` and `vgrd10m` (wind component speeds at 10m above surface) do
+not have a `lev` dimension so we can ignore the `lev` argument.
+
+``` r
+winds <- nam218grads::get_var(x, c("ugrd10m", "vgrd10m"),
+                          bb = c(-77.0, -51.5, 37.9, 56.7),
+                          time = times[5:7])
+winds
+```
+
+    ## stars object with 3 dimensions and 2 attributes
+    ## attribute(s):
+    ##     ugrd10m           vgrd10m       
+    ##  Min.   :-17.983   Min.   :-13.765  
+    ##  1st Qu.:  3.370   1st Qu.: -4.543  
+    ##  Median :  5.866   Median : -2.550  
+    ##  Mean   :  4.605   Mean   : -1.180  
+    ##  3rd Qu.:  8.369   3rd Qu.:  1.776  
+    ##  Max.   : 21.627   Max.   : 14.740  
+    ##  NA's   :14664     NA's   :14664    
+    ## dimension(s):
+    ##      from  to                  offset     delta  refsys point values x/y
+    ## x       1 226                -77.0816  0.113384  WGS 84    NA   NULL [x]
+    ## y       1 170                 56.7171 -0.110827  WGS 84    NA   NULL [y]
+    ## time    1   3 2021-03-06 12:00:00 UTC   3 hours POSIXct    NA   NULL
 
 #### Close the handle
 
@@ -206,7 +234,8 @@ close_grads(x)
 
 ### Plot the levels at different times
 
-First time slice…
+Let’s use the temperature at various pressure levels in variable `s` for
+some plotting. First time slice…
 
 ``` r
 if (require(maps)){
@@ -222,6 +251,8 @@ if (require(maps)){
     ## Loading required package: maps
 
 ![](README_files/figure-gfm/plot_time_1-1.png)<!-- -->
+
+And the last time slice…
 
 ``` r
 if (require(maps)){

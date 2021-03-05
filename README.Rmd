@@ -3,8 +3,6 @@ title: "nam218grads"
 output: github_document
 ---
 
-# nam281grads
-
 This package simplifies access to the [NCEP NOMADS grads server](http://nomads.ncep.noaa.gov:80/dods/nam) for the [NAM](https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/north-american-mesoscale-forecast-system-nam) forecast models.
 
 ## Requirements
@@ -33,7 +31,8 @@ knitr::opts_chunk$set(echo = TRUE)
 Retrieve a URL for a resource by date, like yesterday's forecast at 0000H. Note that the
 NCEP/NOMADS grads server only maintains the current forecast plus the prior 6.
 
-```{r get_uri}
+```{r get_uri, message = FALSE}
+library(stars)
 library(nam218grads)
 uri <- grads_uri(date = Sys.Date()-1, product = "nam_00z")
 uri
@@ -91,19 +90,20 @@ dims
 ### Retrieve data
 
 #### As an array
-Retrieving data will return contiguous arrays of data. We provide a function `get_var_array` that expects the slab coordinates in integer run-length encoding for each dimension as \code{[start_index, count]}. This function returns an array of cell values.
+Retrieving data will return contiguous arrays of data. We provide a function `get_var_array` that expects the slab coordinates in integer run-length encoding for each dimension as `[start_index, count]`. This function returns an array of cell values - for range of pressure levels at different times.
 
 ```{r get_array}
-a <- nam218grads::get_var_array(x, "tmpprs",list(lon = c(110, 100),
-                                  lat = c(150, 75),
-                                  lev = c(3, 5),
-                                  time = c(1, 12)))
+a <- nam218grads::get_var_array(x, "tmpprs", 
+                                list(lon = c(110, 100),
+                                     lat = c(150, 75),
+                                     lev = c(3, 5),
+                                     time = c(1, 12)))
 str(a)
 ```
 
 
 #### As a stars object
-The `get_var` function is a convenient wrapper around the `get_var_array` function.  Users specify the slab limits with 'real world' units, and a [`stars`](https://r-spatial.github.io/stars/) is returned (although returning an array is an option).
+The `get_var` function is a convenient wrapper around the `get_var_array` function.  Users specify the slab limits with 'real world' units, and a [`stars`](https://r-spatial.github.io/stars/) object is returned (although returning an array is an option).
 
 ```{r get_stars}
 s <- nam218grads::get_var(x, "tmpprs",
@@ -111,6 +111,15 @@ s <- nam218grads::get_var(x, "tmpprs",
                           time = times[1:12],
                           lev = levels[3:5])
 s
+```
+
+You can also retrieve multiple variables. Note in the example below that `ugrd10m` and `vgrd10m` (wind component speeds at 10m above surface) do not have a `lev` dimension so we can ignore the `lev` argument.
+
+```{r multiple_vars}
+winds <- nam218grads::get_var(x, c("ugrd10m", "vgrd10m"),
+                          bb = c(-77.0, -51.5, 37.9, 56.7),
+                          time = times[5:7])
+winds
 ```
 
 #### Close the handle
@@ -123,7 +132,7 @@ close_grads(x)
 
 ### Plot the levels at different times
 
-First time slice...
+Let's use the temperature at various pressure levels in variable `s` for some plotting. First time slice...
 
 ```{r plot_time_1}
 if (require(maps)){
@@ -135,6 +144,8 @@ if (require(maps)){
   plot(s, axes = TRUE, hook = overlay_fun)
 }
 ```
+
+And the last time slice...
 
 ```{r plot_time_12}
 if (require(maps)){
