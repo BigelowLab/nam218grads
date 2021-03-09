@@ -4,7 +4,7 @@
 \alias{get_var_array}
 \title{Retrieve an array of data from a ncdf object}
 \usage{
-get_var_array(x, var, index, collapse_degen = TRUE)
+get_var_array(x, var, index, collapse_degen = FALSE)
 }
 \arguments{
 \item{x}{ncdf4 object}

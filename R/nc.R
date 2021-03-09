@@ -176,7 +176,12 @@ loc_index <- function(x, value, what = 'lon', make_rle = FALSE){
            which.min(abs(loc - v))
          }, simplify = TRUE)
   if (make_rle){
-    r <- c(r[1], r[length(r)] - r[1] + 1)
+    len <- length(r)
+    if (length(r) == 1){
+      r <- c(r,1)
+    } else {
+      r <- c(r[1], r[length(r)] - r[1] + 1)
+    }
   }
   r
 }
@@ -210,7 +215,7 @@ get_vardims <- function(x, var = get_varnames(x)[1]){
 #'  \code{[lon, lat, lev, time]} dimensions. If the grib files stored those in
 #'  \code{[lon, lat, time, lev]} order we could have dropped degenerate dimensions.
 #' @return matrix or array
-get_var_array <- function(x, var, index, collapse_degen = TRUE){
+get_var_array <- function(x, var, index, collapse_degen = FALSE){
   vdims <- get_vardims(x, var)
   start <- sapply(vdims,
                   function(vname) index[[vname]][1])
@@ -233,6 +238,12 @@ get_var_array <- function(x, var, index, collapse_degen = TRUE){
 #' The requested bounding box coordinates are matched to the closest grid cell
 #' centers, thus the output grids may differ in extent form the requested bounding
 #' box.
+#'
+#' Requested times and levels are considered contiguous - we are extracting slabs
+#' of data after all. Currently the first and last times or levels requested mark
+#' the inclusive bounds of the slab in those dimensions. Requesting a single time or
+#' level works pefectly well.  If you need disjoint bands (not contiguous bands) then
+#' you will need to make a separate request for each.
 #'
 #' @export
 #' @param x ncdf4 object
@@ -313,6 +324,8 @@ get_var <- function(x,
                         ymax = ylim[2]),
                       crs = 4326)
   d <- dim(m)
+  time_index <- index$time[1] + (seq_len(index$time[2]) - 1)
+  lev_index <- index$lev[1] + (seq_len(index$lev[2]) - 1)
 
   if (length(d) == 4){
     # lon, lat, lev, time
@@ -324,13 +337,15 @@ get_var <- function(x,
                             nz = d[3],
                             values = m[,,,i]) %>%
                    stars::st_flip(which = 2) %>%
-                   stars::st_set_dimensions(which = 'z', values = levs[ilev])
+                   stars::st_set_dimensions(which = 'z',
+                                            values = levs[lev_index])
                  }) %>%
       bind_stars(nms= format(times[itime], "%Y%m%dT%H%M%S")) %>%
       merge(name = 'time')  %>%
-      stars::st_set_dimensions(which = 'time', values = times[itime])
+      stars::st_set_dimensions(which = 'time',
+                               values = times[time_index])
 
-  } else {
+  } else if (length(d) == 3) {
     # lon, lat, time
     r <- stars::st_as_stars(stbb,
                        nx = d[1],
@@ -338,7 +353,20 @@ get_var <- function(x,
                        nz = d[3],
                        values = m) %>%
       stars::st_flip(which = 2)  %>%
-      stars::st_set_dimensions(which = 3, values = times[itime], names = 'time')
+      stars::st_set_dimensions(which = 3,
+                               values = times[time_index],
+                               names = 'time')
+  } else {
+    # lon lat - we restore time so to speak
+    r <- stars::st_as_stars(stbb,
+                            nx = d[1],
+                            ny = d[2],
+                            nz = 1,
+                            values = m) %>%
+      stars::st_flip(which = 2) %>%
+      stars::st_set_dimensions(which = 3,
+                               values = times[time_index],
+                               names = 'time')
   }
   r <- stats::setNames(r, var)
   r

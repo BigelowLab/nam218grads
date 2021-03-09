@@ -7,6 +7,3 @@
 #' @importFrom rlang .data := !!
 NULL
 
-load_packages <- function(packages = c("ncdf4", "dplyr", "sf", "stars")){
-  for (p in packages){require(p, character.only = TRUE)}
-}

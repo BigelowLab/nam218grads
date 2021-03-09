@@ -46,4 +46,10 @@ returned.
 The requested bounding box coordinates are matched to the closest grid cell
 centers, thus the output grids may differ in extent form the requested bounding
 box.
+
+Requested times and levels are considered contiguous - we are extracting slabs
+of data after all. Currently the first and last times or levels requested mark
+the inclusive bounds of the slab in those dimensions. Requesting a single time or
+level works pefectly well.  If you need disjoint bands (not contiguous bands) then
+you will need to make a separate request for each.
 }

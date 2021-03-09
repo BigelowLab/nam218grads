@@ -1,5 +1,10 @@
+
+load_packages <- function(packages = c("ncdf4", "dplyr", "sf", "stars")){
+  for (p in packages){require(p, character.only = TRUE)}
+}
+
 if(FALSE){
-  devtools::load_all("~/Dropbox/code/R/packages/nam218grads")
+  devtools::load_all()
   load_packages()
 }
 
@@ -12,7 +17,7 @@ X <- x <- open_grads(uri[1])
 
 var <- c("ugrd10m", "vgrd10m")
 bb = c(-77.0, -51.5, 37.9, 56.7)
-time = get_time(x)[1:3]
+time = get_time(x)[c(1,8)]
 lev = get_lev(x)[1:2]
 form = 'stars'
 
