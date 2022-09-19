@@ -10,6 +10,7 @@ get_var(
   bb = get_bounds(x),
   time = get_loc(x, "time")[1:3],
   lev = get_loc(x, "lev")[1:5],
+  nav = NULL,
   form = c("array", "stars")[2]
 )
 }
@@ -29,6 +30,10 @@ is the first recorded time in the object.}
 closest known levels in the object. See \code{get_lev} Default
 is the first level time in the object.  Ignored if \code{lev} is not
 a dimension of the variable.}
+
+\item{nav}{list, see \code{get_navigation} If not provided then computed from
+\code{bb, time and lev}.  If provided then \code{bb, time and lev} are
+ignored (since you have already computed the navigation.)}
 
 \item{form}{character either 'array' of 'stars' (default)
 \itemize{

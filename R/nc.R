@@ -102,7 +102,7 @@ get_time <- function(x, shift = -2){
   origin <- as.POSIXct(x$dim$time$units,
                        format = "days since %Y-%m-%d %H:%M:%OS",
                        tz = "UTC")
-  x$dim$time$vals * (24 * 3600) + origin
+  (x$dim$time$vals * (24 * 3600)) + origin + (shift * (24 * 3600))
 }
 #' @export
 #' @describeIn get_loc retrieve numeric longitudes
@@ -228,6 +228,94 @@ get_var_array <- function(x, var, index, collapse_degen = FALSE){
 }
 
 
+#' Retrieve a navigation structure for extracting slabs.
+#'
+#' Handy if you are doing multiple extractions - just compute the extraction
+#' navigation once and resuse it (not that computing is slow.)
+#'
+#' @export
+#' @param x ncdf4 object
+#' @param bb a 4 element bounding box for subsetting ordered as
+#'        \code{[xmin, xmax, ymin, ymax]}
+#' @param time POSIXct vector of one or more times to retrieve. These are matched the
+#'        closest known times in the object. See \code{get_time}  Default
+#'        is the first recorded time in the object.
+#' @param lev numeric vector of one or more levels. These are matched the
+#'        closest known levels in the object. See \code{get_lev} Default
+#'        is the first level time in the object.  Ignored if \code{lev} is not
+#'        a dimension of the variable.
+#' @return a list of extraction navigation elements
+#' \itemize{
+#'   \item{obb, otime, olev: original request inputs}
+#'   \item{ilon, ilat, itime, ilev: index into dimensions for obb, otime and olev}
+#'   \item{lons, lats, times, levs: full real world dimension values}
+#'   \item{dx, dy: x and y resolution}
+#'   \item{xlim, ylim: limits envelope}
+#'   \item{index: list of array (slab) indices as in [start, count] form}
+#'   \item{stbb: st_bbox object}
+#'   \item{time_index, lev_index: full sequential indices into times and levs}
+#' }
+get_navigation <- function(x,
+                           bb = get_bounds(x),
+                           time = get_loc(x, 'time')[1:3],
+                           lev = get_loc(x, "lev")[1:5]){
+
+  # where along the dimensions do the requests fall?
+  ilon <- loc_index(x, bb[1:2], "lon")
+  ilat <- loc_index(x, bb[3:4], "lat")
+  ilev <- loc_index(x, lev, "lev")
+  itime <- loc_index(x, time, 'time')
+
+  # what are the actual dimension values
+  lons <- get_lon(x)
+  lats <- get_lat(x)
+  times <- get_time(x)
+  levs <- get_lev(x)
+
+  # spacing and limits
+  dx <- lons[2]-lons[1]
+  dy <- lats[2]-lats[1]
+  xlim <- lons[ilon] + c(-dx, dx)/2
+  ylim <- lats[ilat] + c(-dy, dy)/2
+
+  # encoded slab coords as [start, count]
+  index <- list(
+    lon = loc_index(x, bb[1:2], "lon", make_rle = TRUE),
+    lat = loc_index(x, bb[3:4], "lat", make_rle = TRUE),
+    time =  loc_index(x, time, "time", make_rle = TRUE),
+    lev = loc_index(x, lev, "lev", make_rle = TRUE))
+
+  # the bbox as st object
+  stbb <- sf::st_bbox(c(xmin = xlim[1],
+                        ymin = ylim[1],
+                        xmax = xlim[2],
+                        ymax = ylim[2]),
+                      crs = 4326)
+
+  # the slab coordinates as indices into original dimensions,
+  # guaranteed to be ordered, unlike itime/ilev etc which could be just start stop
+  time_index <- index$time[1] + (seq_len(index$time[2]) - 1)
+  lev_index <- index$lev[1] + (seq_len(index$lev[2]) - 1)
+
+  list(obb = bb, otime = time, olev = lev,
+       lons = lons,
+       lats = lats,
+       times = times,
+       levs = levs,
+       ilon = ilon,
+       ilat = ilat,
+       itime = itime,
+       ilev = ilev,
+       dx = dx,
+       dy = dy,
+       xlim = xlim,
+       ylim = ylim,
+       index = index,
+       stbb = stbb,
+       time_index = time_index,
+       lev_index = lev_index)
+}
+
 #' Retrieve a variable as array or stars object.
 #'
 #' Data are stored as \code{[lon, lat, time]} or \code{[lon, lat, lev, time]}
@@ -257,6 +345,9 @@ get_var_array <- function(x, var, index, collapse_degen = FALSE){
 #'        closest known levels in the object. See \code{get_lev} Default
 #'        is the first level time in the object.  Ignored if \code{lev} is not
 #'        a dimension of the variable.
+#' @param nav list, see \code{get_navigation} If not provided then computed from
+#'        \code{bb, time and lev}.  If provided then \code{bb, time and lev} are
+#'        ignored (since you have already computed the navigation.)
 #' @param form character either 'array' of 'stars' (default)
 #' \itemize{
 #'   \item{array}{an array or list of arrays, possibly degenerate to a matrix}
@@ -267,22 +358,17 @@ get_var <- function(x,
                     bb = get_bounds(x),
                     time = get_loc(x, 'time')[1:3],
                     lev = get_loc(x, "lev")[1:5],
+                    nav = NULL,
                     form = c("array", "stars")[2]){
 
-
-  if(FALSE){
-    x = X
-    var ="tmpsfc"
-    bb = get_bounds(x)
-    time = get_loc(x, 'time')[1:4]
-    lev = get_loc(x, "lev")[1]
-    form = c("matrix", "stars")[2]
+  if (is.null(nav)){
+    nav <- get_navigation(x, bb = bb, time = time, lev = lev)
   }
 
   if (length(var) > 1){
     r <- sapply(var,
                 function(v){
-                  get_var(x, v, bb = bb, time = time, lev = lev, form = form)
+                  get_var(x, v, nav = nav, form = form)
                 }, simplify = FALSE)
     if (tolower(form[1]) == 'stars'){
       r <- Reduce(c, r) %>%
@@ -293,79 +379,80 @@ get_var <- function(x,
 
   stopifnot(var[1] %in% get_varnames(x))
 
-  ilon <- loc_index(x, bb[1:2], "lon")
-  ilat <- loc_index(x, bb[3:4], "lat")
-  ilev <- loc_index(x, lev, "lev")
-  itime <- loc_index(x, time, 'time')
+  # ilon <- loc_index(x, bb[1:2], "lon")
+  # ilat <- loc_index(x, bb[3:4], "lat")
+  # ilev <- loc_index(x, lev, "lev")
+  # itime <- loc_index(x, time, 'time')
+#
+  # lons <- get_lon(x)
+  # lats <- get_lat(x)
+  # times <- get_time(x)
+  # levs <- get_lev(x)
+#
+  # dx <- lons[2]-lons[1]
+  # dy <- lats[2]-lats[1]
+  # xlim <- lons[ilon] + c(-dx, dx)/2
+  # ylim <- lats[ilat] + c(-dy, dy)/2
+#
+  # index <- list(
+  #   lon = loc_index(x, bb[1:2], "lon", make_rle = TRUE),
+  #   lat = loc_index(x, bb[3:4], "lat", make_rle = TRUE),
+  #   time =  loc_index(x, time, "time", make_rle = TRUE),
+  #   lev = loc_index(x, lev, "lev", make_rle = TRUE))
+  # stbb <- sf::st_bbox(c(xmin = xlim[1],
+  #                       ymin = ylim[1],
+  #                       xmax = xlim[2],
+  #                       ymax = ylim[2]),
+  #                     crs = 4326)
+#
+  # time_index <- index$time[1] + (seq_len(index$time[2]) - 1)
+  # lev_index <- index$lev[1] + (seq_len(index$lev[2]) - 1)
 
-  lons <- get_lon(x)
-  lats <- get_lat(x)
-  times <- get_time(x)
-  levs <- get_lev(x)
-
-  dx <- lons[2]-lons[1]
-  dy <- lats[2]-lats[1]
-  xlim <- lons[ilon] + c(-dx, dx)/2
-  ylim <- lats[ilat] + c(-dy, dy)/2
-
-  index <- list(
-    lon = loc_index(x, bb[1:2], "lon", make_rle = TRUE),
-    lat = loc_index(x, bb[3:4], "lat", make_rle = TRUE),
-    time =  loc_index(x, time, "time", make_rle = TRUE),
-    lev = loc_index(x, lev, "lev", make_rle = TRUE))
-
-  m <- get_var_array(x, var[1], index)
+  m <- get_var_array(x, var[1], nav$index)
 
   if (tolower(form[1]) %in% c('array', "matrix")) return(m)
 
-  stbb <- sf::st_bbox(c(xmin = xlim[1],
-                        ymin = ylim[1],
-                        xmax = xlim[2],
-                        ymax = ylim[2]),
-                      crs = 4326)
   d <- dim(m)
-  time_index <- index$time[1] + (seq_len(index$time[2]) - 1)
-  lev_index <- index$lev[1] + (seq_len(index$lev[2]) - 1)
 
   if (length(d) == 4){
     # lon, lat, lev, time
     r <- lapply(seq_len(d[4]),
                  function(i){
-                   stars::st_as_stars(stbb,
+                   stars::st_as_stars(nav$stbb,
                             nx = d[1],
                             ny = d[2],
                             nz = d[3],
                             values = m[,,,i]) %>%
                    stars::st_flip(which = 2) %>%
                    stars::st_set_dimensions(which = 'z',
-                                            values = levs[lev_index])
+                                            values = nav$levs[nav$lev_index])
                  }) %>%
-      bind_stars(nms= format(times[itime], "%Y%m%dT%H%M%S")) %>%
+      bind_stars(nms= format(nav$times[nav$itime], "%Y%m%dT%H%M%S")) %>%
       merge(name = 'time')  %>%
       stars::st_set_dimensions(which = 'time',
-                               values = times[time_index])
+                               values = nav$times[nav$time_index])
 
   } else if (length(d) == 3) {
     # lon, lat, time
-    r <- stars::st_as_stars(stbb,
+    r <- stars::st_as_stars(nav$stbb,
                        nx = d[1],
                        ny = d[2],
                        nz = d[3],
                        values = m) %>%
       stars::st_flip(which = 2)  %>%
       stars::st_set_dimensions(which = 3,
-                               values = times[time_index],
+                               values = nav$times[nav$time_index],
                                names = 'time')
   } else {
     # lon lat - we restore time so to speak
-    r <- stars::st_as_stars(stbb,
+    r <- stars::st_as_stars(nav$stbb,
                             nx = d[1],
                             ny = d[2],
                             nz = 1,
                             values = m) %>%
       stars::st_flip(which = 2) %>%
       stars::st_set_dimensions(which = 3,
-                               values = times[time_index],
+                               values = nav$times[nav$time_index],
                                names = 'time')
   }
   r <- stats::setNames(r, var)
