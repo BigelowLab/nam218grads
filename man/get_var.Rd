@@ -11,6 +11,7 @@ get_var(
   time = get_loc(x, "time")[1:3],
   lev = get_loc(x, "lev")[1:5],
   nav = NULL,
+  shift = 2,
   form = c("array", "stars")[2]
 )
 }
@@ -24,7 +25,7 @@ get_var(
 
 \item{time}{POSIXct vector of one or more times to retrieve. These are matched the
 closest known times in the object. See \code{get_time}  Default
-is the first recorded time in the object.}
+is the first recorded time in the object. See \code{shift} argument}
 
 \item{lev}{numeric vector of one or more levels. These are matched the
 closest known levels in the object. See \code{get_lev} Default
@@ -34,6 +35,9 @@ a dimension of the variable.}
 \item{nav}{list, see \code{get_navigation} If not provided then computed from
 \code{bb, time and lev}.  If provided then \code{bb, time and lev} are
 ignored (since you have already computed the navigation.)}
+
+\item{shift}{2 number of days to shift the input time - see \code{get_time}. Set
+to \code{0} to add no shift}
 
 \item{form}{character either 'array' of 'stars' (default)
 \itemize{

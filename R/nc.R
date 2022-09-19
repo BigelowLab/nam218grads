@@ -340,7 +340,7 @@ get_navigation <- function(x,
 #'        \code{[xmin, xmax, ymin, ymax]}
 #' @param time POSIXct vector of one or more times to retrieve. These are matched the
 #'        closest known times in the object. See \code{get_time}  Default
-#'        is the first recorded time in the object.
+#'        is the first recorded time in the object. See \code{shift} argument
 #' @param lev numeric vector of one or more levels. These are matched the
 #'        closest known levels in the object. See \code{get_lev} Default
 #'        is the first level time in the object.  Ignored if \code{lev} is not
@@ -348,6 +348,8 @@ get_navigation <- function(x,
 #' @param nav list, see \code{get_navigation} If not provided then computed from
 #'        \code{bb, time and lev}.  If provided then \code{bb, time and lev} are
 #'        ignored (since you have already computed the navigation.)
+#' @param shift 2 number of days to shift the input time - see \code{get_time}. Set
+#'        to \code{0} to add no shift
 #' @param form character either 'array' of 'stars' (default)
 #' \itemize{
 #'   \item{array}{an array or list of arrays, possibly degenerate to a matrix}
@@ -359,7 +361,9 @@ get_var <- function(x,
                     time = get_loc(x, 'time')[1:3],
                     lev = get_loc(x, "lev")[1:5],
                     nav = NULL,
+                    shift = 2,
                     form = c("array", "stars")[2]){
+
 
   if (is.null(nav)){
     nav <- get_navigation(x, bb = bb, time = time, lev = lev)
@@ -378,35 +382,6 @@ get_var <- function(x,
   }
 
   stopifnot(var[1] %in% get_varnames(x))
-
-  # ilon <- loc_index(x, bb[1:2], "lon")
-  # ilat <- loc_index(x, bb[3:4], "lat")
-  # ilev <- loc_index(x, lev, "lev")
-  # itime <- loc_index(x, time, 'time')
-#
-  # lons <- get_lon(x)
-  # lats <- get_lat(x)
-  # times <- get_time(x)
-  # levs <- get_lev(x)
-#
-  # dx <- lons[2]-lons[1]
-  # dy <- lats[2]-lats[1]
-  # xlim <- lons[ilon] + c(-dx, dx)/2
-  # ylim <- lats[ilat] + c(-dy, dy)/2
-#
-  # index <- list(
-  #   lon = loc_index(x, bb[1:2], "lon", make_rle = TRUE),
-  #   lat = loc_index(x, bb[3:4], "lat", make_rle = TRUE),
-  #   time =  loc_index(x, time, "time", make_rle = TRUE),
-  #   lev = loc_index(x, lev, "lev", make_rle = TRUE))
-  # stbb <- sf::st_bbox(c(xmin = xlim[1],
-  #                       ymin = ylim[1],
-  #                       xmax = xlim[2],
-  #                       ymax = ylim[2]),
-  #                     crs = 4326)
-#
-  # time_index <- index$time[1] + (seq_len(index$time[2]) - 1)
-  # lev_index <- index$lev[1] + (seq_len(index$lev[2]) - 1)
 
   m <- get_var_array(x, var[1], nav$index)
 
