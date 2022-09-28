@@ -95,14 +95,27 @@ get_loc <- function(x, what = 'time'){
 }
 #' @export
 #' @describeIn get_loc retrieve POSIXct times
-#' @param shift numeric, see \href{https://github.com/dankelley/oce/issues/738}{oce}
+#' @param shift numeric, see \href{https://github.com/dankelley/oce/issues/738}{oce} in days
+#'   If the time unit in the file is actually hours then we automatically convert to hours
+#'   (so shift = 2 internally becomes 48) Set to zero to not shift.
 #' @return POSIXct times
 get_time <- function(x, shift = -2){
   stopifnot(inherits(x, "ncdf4"))
-  origin <- as.POSIXct(x$dim$time$units,
-                       format = "days since %Y-%m-%d %H:%M:%OS",
+  origin <- x$dim$time$units
+  if (grepl("hour since", tolower(origin), fixed = TRUE)){
+    fmt <- "Hour since %Y-%m-%dT%HH:%MM:%SSZ"
+    step <- 3600
+    shift <- shift * 24
+  } else {
+    fmt <- "days since %Y-%m-%d %H:%M:%OS"
+    step <- 24 * 3600
+  }
+  
+  
+  origin <- as.POSIXct(origin,
+                       format = fmt,
                        tz = "UTC")
-  (x$dim$time$vals * (24 * 3600)) + origin + (shift * (24 * 3600))
+  (x$dim$time$vals * step) + origin + (shift * step)
 }
 #' @export
 #' @describeIn get_loc retrieve numeric longitudes

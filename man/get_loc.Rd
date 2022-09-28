@@ -23,7 +23,9 @@ get_lev(x)
 
 \item{what}{character, one of 'time', 'lon', 'lat', 'lev' or 'all'}
 
-\item{shift}{numeric, see \href{https://github.com/dankelley/oce/issues/738}{oce}}
+\item{shift}{numeric, see \href{https://github.com/dankelley/oce/issues/738}{oce} in days
+If the time unit in the file is actually hours then we automatically convert to hours
+(so shift = 2 internally becomes 48) Set to zero to not shift.}
 }
 \value{
 varies by value of what
